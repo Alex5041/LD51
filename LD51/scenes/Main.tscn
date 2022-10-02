@@ -1,0 +1,668 @@
+[gd_scene load_steps=29 format=2]
+
+[ext_resource path="res://big.tres" type="DynamicFont" id=1]
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/Main.gd" type="Script" id=3]
+[ext_resource path="res://sprites/portal.png" type="Texture" id=4]
+[ext_resource path="res://scenes/Word.tscn" type="PackedScene" id=5]
+[ext_resource path="res://arvo.tres" type="DynamicFont" id=6]
+[ext_resource path="res://sounds/pick.wav" type="AudioStream" id=7]
+[ext_resource path="res://sounds/shotwav.wav" type="AudioStream" id=8]
+[ext_resource path="res://sounds/explosion.wav" type="AudioStream" id=9]
+[ext_resource path="res://sounds/phase.wav" type="AudioStream" id=10]
+[ext_resource path="res://sprites/LD51.png" type="Texture" id=11]
+[ext_resource path="res://fira.tres" type="DynamicFont" id=12]
+[ext_resource path="res://sounds/start.mp3" type="AudioStream" id=13]
+[ext_resource path="res://sounds/finish.mp3" type="AudioStream" id=14]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 20.0
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 4 )
+region = Rect2( 40, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 4 )
+region = Rect2( 80, 0, 40, 40 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.168627, 0.156863, 0.129412, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.694118, 0.647059, 0.552941, 1 )
+border_width_right = 20
+border_color = Color( 0.168627, 0.156863, 0.129412, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.694118, 0.647059, 0.552941, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.694118, 0.647059, 0.552941, 0 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Map" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Rect" type="Node2D" parent="."]
+visible = false
+z_index = 5
+
+[node name="ColorRect" type="ColorRect" parent="Rect"]
+margin_right = 800.0
+margin_bottom = 600.0
+color = Color( 0.168627, 0.156863, 0.129412, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="Rect"]
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 287, 302 )
+z_index = 1
+
+[node name="Portal" type="Area2D" parent="."]
+position = Vector2( 400, 300 )
+collision_layer = 16
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="AnimatedSprite" parent="Portal"]
+frames = SubResource( 5 )
+frame = 2
+playing = true
+
+[node name="Portal" type="Node" parent="Portal"]
+
+[node name="PhaseTimer" type="Timer" parent="."]
+
+[node name="Down" type="Node2D" parent="."]
+z_index = 2
+
+[node name="Panel" type="Panel" parent="Down"]
+margin_top = 500.0
+margin_right = 800.0
+margin_bottom = 600.0
+custom_styles/panel = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HP" type="HBoxContainer" parent="Down/Panel"]
+margin_left = 41.0
+margin_top = 25.0
+margin_right = 229.0
+margin_bottom = 65.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Heart" type="Panel" parent="Down/Panel/HP"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 7 )
+
+[node name="Word" parent="Down/Panel/HP/Heart" instance=ExtResource( 5 )]
+position = Vector2( -1, 15 )
+
+[node name="Heart2" type="Panel" parent="Down/Panel/HP"]
+margin_left = 44.0
+margin_right = 84.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 7 )
+
+[node name="Word" parent="Down/Panel/HP/Heart2" instance=ExtResource( 5 )]
+position = Vector2( -1, 15 )
+
+[node name="Heart3" type="Panel" parent="Down/Panel/HP"]
+margin_left = 88.0
+margin_right = 128.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 7 )
+
+[node name="Word" parent="Down/Panel/HP/Heart3" instance=ExtResource( 5 )]
+position = Vector2( -1, 15 )
+
+[node name="HP2" type="HBoxContainer" parent="Down/Panel"]
+visible = false
+margin_left = 41.0
+margin_top = 65.0
+margin_right = 229.0
+margin_bottom = 105.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Heart" type="Panel" parent="Down/Panel/HP2"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 7 )
+
+[node name="Word" parent="Down/Panel/HP2/Heart" instance=ExtResource( 5 )]
+position = Vector2( -1, 15 )
+
+[node name="Heart2" type="Panel" parent="Down/Panel/HP2"]
+margin_left = 44.0
+margin_right = 84.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 7 )
+
+[node name="Word" parent="Down/Panel/HP2/Heart2" instance=ExtResource( 5 )]
+position = Vector2( -1, 15 )
+
+[node name="Heart3" type="Panel" parent="Down/Panel/HP2"]
+margin_left = 88.0
+margin_right = 128.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 7 )
+
+[node name="Word" parent="Down/Panel/HP2/Heart3" instance=ExtResource( 5 )]
+position = Vector2( -1, 15 )
+
+[node name="Words" type="HBoxContainer" parent="Down/Panel"]
+margin_left = 580.0
+margin_top = 25.0
+margin_right = 762.0
+margin_bottom = 65.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Item0" type="Panel" parent="Down/Panel/Words"]
+margin_right = 60.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 60, 0 )
+custom_styles/panel = SubResource( 8 )
+
+[node name="Descr" type="Label" parent="Down/Panel/Words/Item0"]
+margin_left = 4.0
+margin_top = 41.0
+margin_right = 49.0
+margin_bottom = 61.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.890196, 0.811765, 0.705882, 1 )
+text = "sign"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Panel/Words/Item0" instance=ExtResource( 5 )]
+position = Vector2( 20, 20 )
+
+[node name="Item1" type="Panel" parent="Down/Panel/Words"]
+margin_left = 64.0
+margin_right = 124.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 60, 0 )
+custom_styles/panel = SubResource( 8 )
+
+[node name="Descr" type="Label" parent="Down/Panel/Words/Item1"]
+visible = false
+margin_left = -5.0
+margin_top = 41.0
+margin_right = 49.0
+margin_bottom = 61.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.890196, 0.811765, 0.705882, 1 )
+text = "target"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Panel/Words/Item1" instance=ExtResource( 5 )]
+position = Vector2( 20, 20 )
+
+[node name="Item2" type="Panel" parent="Down/Panel/Words"]
+margin_left = 128.0
+margin_right = 188.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 60, 0 )
+custom_styles/panel = SubResource( 8 )
+
+[node name="Descr" type="Label" parent="Down/Panel/Words/Item2"]
+visible = false
+margin_left = 1.0
+margin_top = 41.0
+margin_right = 49.0
+margin_bottom = 61.0
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.890196, 0.811765, 0.705882, 1 )
+text = "mod"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Panel/Words/Item2" instance=ExtResource( 5 )]
+position = Vector2( 20, 20 )
+
+[node name="Target" type="Sprite" parent="Down/Panel"]
+position = Vector2( 543, 53 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 11 )
+region_enabled = true
+region_rect = Rect2( 96, 0, 48, 40 )
+
+[node name="Label" type="Label" parent="Down/Panel"]
+margin_left = 178.0
+margin_top = 42.0
+margin_right = 571.0
+margin_bottom = 80.0
+custom_fonts/font = ExtResource( 12 )
+custom_colors/font_color = Color( 0.890196, 0.811765, 0.705882, 1 )
+text = "Each 10 seconds target is changed:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Up" type="Node2D" parent="Down"]
+z_index = 2
+
+[node name="Panel" type="Panel" parent="Down/Up"]
+margin_right = 800.0
+margin_bottom = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Levels" type="HBoxContainer" parent="Down/Up/Panel"]
+margin_left = 10.0
+margin_top = 25.0
+margin_right = 198.0
+margin_bottom = 65.0
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Down/Up/Panel/Levels"]
+margin_right = 84.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Item0" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Up/Panel/Levels/HBoxContainer/Item0" instance=ExtResource( 5 )]
+position = Vector2( 20, 20 )
+
+[node name="Item1" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer"]
+margin_left = 44.0
+margin_right = 84.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Up/Panel/Levels/HBoxContainer/Item1" instance=ExtResource( 5 )]
+position = Vector2( 20, 20 )
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Down/Up/Panel/Levels"]
+margin_left = 104.0
+margin_right = 188.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Item0" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer3"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Up/Panel/Levels/HBoxContainer3/Item0" instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 20, 20 )
+
+[node name="Item1" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer3"]
+margin_left = 44.0
+margin_right = 84.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Up/Panel/Levels/HBoxContainer3/Item1" instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 20, 20 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Down/Up/Panel/Levels"]
+margin_left = 208.0
+margin_right = 336.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Item0" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer2"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Up/Panel/Levels/HBoxContainer2/Item0" instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 20, 20 )
+
+[node name="Item1" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer2"]
+margin_left = 44.0
+margin_right = 84.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Up/Panel/Levels/HBoxContainer2/Item1" instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 20, 20 )
+
+[node name="Item2" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer2"]
+margin_left = 88.0
+margin_right = 128.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Up/Panel/Levels/HBoxContainer2/Item2" instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 20, 20 )
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Down/Up/Panel/Levels"]
+visible = false
+margin_left = 356.0
+margin_right = 484.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Item0" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer4"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Up/Panel/Levels/HBoxContainer4/Item0" instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 20, 20 )
+
+[node name="Item1" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer4"]
+margin_left = 44.0
+margin_right = 84.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Up/Panel/Levels/HBoxContainer4/Item1" instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 20, 20 )
+
+[node name="Item2" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer4"]
+margin_left = 88.0
+margin_right = 128.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Word" parent="Down/Up/Panel/Levels/HBoxContainer4/Item2" instance=ExtResource( 5 )]
+visible = false
+position = Vector2( 20, 20 )
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Down/Up/Panel/Levels"]
+margin_left = 356.0
+margin_right = 396.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Item0" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer5"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Down/Up/Panel/Levels/HBoxContainer5/Item0"]
+visible = false
+position = Vector2( 4, 5 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 11 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 56, 0, 40, 40 )
+
+[node name="Label" type="Label" parent="Down/Up/Panel/Levels/HBoxContainer5"]
+visible = false
+margin_left = 44.0
+margin_top = 13.0
+margin_right = 60.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.890196, 0.811765, 0.705882, 1 )
+text = "25"
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="Down/Up/Panel/Levels"]
+margin_left = 416.0
+margin_right = 456.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Item0" type="Panel" parent="Down/Up/Panel/Levels/HBoxContainer6"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 0 )
+custom_styles/panel = SubResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="Down/Up/Panel/Levels/HBoxContainer6/Item0"]
+visible = false
+position = Vector2( 4, 5 )
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 11 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 120, 88, 40, 40 )
+
+[node name="Label" type="Label" parent="Down/Up/Panel/Levels/HBoxContainer6"]
+visible = false
+margin_right = 67.0
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.890196, 0.811765, 0.705882, 1 )
+text = "2:00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Down/Up/Panel"]
+margin_left = 712.0
+margin_top = 34.0
+margin_right = 779.0
+margin_bottom = 87.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.890196, 0.811765, 0.705882, 1 )
+text = "10"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Swap" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -5.0
+
+[node name="Shot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -10.455
+pitch_scale = 1.7
+
+[node name="Explosion" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -5.0
+
+[node name="NoteTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="NoteTween" type="Tween" parent="."]
+
+[node name="Bounds" type="StaticBody2D" parent="."]
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Bounds"]
+polygon = PoolVector2Array( -239, -139, 0, 100, 800, 100, 800, 500, 0, 500, 0, 100, -247, -134, -256, 806, 946, 812, 960, -188 )
+
+[node name="Cosmetics" type="Node2D" parent="."]
+
+[node name="Countdown" type="Timer" parent="."]
+one_shot = true
+
+[node name="Phase" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -7.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 400, 300 )
+current = true
+zoom = Vector2( 0.4, 0.4 )
+
+[node name="CameraTween" type="Tween" parent="."]
+
+[node name="Level5Timer" type="Timer" parent="."]
+
+[node name="Start" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+
+[node name="Finish" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+
+[connection signal="tween_all_completed" from="Rect/Tween" to="." method="_on_Tween_tween_all_completed"]
+[connection signal="timeout" from="PhaseTimer" to="." method="_on_PhaseTimer_timeout"]
+[connection signal="mouse_entered" from="Down/Panel/Words" to="." method="_on_Words_mouse_entered"]
+[connection signal="mouse_exited" from="Down/Panel/Words" to="." method="_on_Words_mouse_exited"]
+[connection signal="gui_input" from="Down/Panel/Words/Item0" to="." method="_on_Item0_gui_input"]
+[connection signal="mouse_entered" from="Down/Panel/Words/Item0" to="." method="_on_Words_mouse_entered"]
+[connection signal="mouse_exited" from="Down/Panel/Words/Item0" to="." method="_on_Words_mouse_exited"]
+[connection signal="gui_input" from="Down/Panel/Words/Item1" to="." method="_on_Item1_gui_input"]
+[connection signal="mouse_entered" from="Down/Panel/Words/Item1" to="." method="_on_Words_mouse_entered"]
+[connection signal="mouse_exited" from="Down/Panel/Words/Item1" to="." method="_on_Words_mouse_exited"]
+[connection signal="gui_input" from="Down/Panel/Words/Item2" to="." method="_on_Item2_gui_input"]
+[connection signal="mouse_entered" from="Down/Panel/Words/Item2" to="." method="_on_Words_mouse_entered"]
+[connection signal="mouse_exited" from="Down/Panel/Words/Item2" to="." method="_on_Words_mouse_exited"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer/Item0" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer/Item1" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer3/Item0" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer3/Item1" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer2/Item0" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer2/Item1" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer2/Item2" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer4/Item0" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer4/Item1" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer4/Item2" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer5/Item0" to="." method="_on_Item2_gui_input"]
+[connection signal="gui_input" from="Down/Up/Panel/Levels/HBoxContainer6/Item0" to="." method="_on_Item2_gui_input"]
+[connection signal="timeout" from="NoteTimer" to="." method="_on_NoteTimer_timeout"]
+[connection signal="timeout" from="Countdown" to="." method="_on_Countdown_timeout"]
+[connection signal="tween_all_completed" from="CameraTween" to="." method="_on_CameraTween_tween_all_completed"]
+[connection signal="timeout" from="Level5Timer" to="." method="_on_Level5Timer_timeout"]

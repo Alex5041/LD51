@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://big.tres" type="DynamicFont" id=1]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 84.0
+margin_top = 21.0
+margin_right = 800.0
+margin_bottom = 530.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/mono_font = ExtResource( 1 )
+custom_fonts/normal_font = ExtResource( 1 )
+custom_colors/default_color = Color( 0.890196, 0.811765, 0.705882, 1 )
+bbcode_enabled = true
+bbcode_text = "Thank you for playing!
+
+A game by: [url=https://waterstop.itch.io/]Water stop[/url]
+
+Programming: Godot 3.3
+
+Music: Bosca Ceoil
+
+SFX: [url=https://chr15m.itch.io/jsfxr]jsfxr[/url]
+
+Art: Aseprite and Playscii: modified textmode, characters from [url=https://batfeula.itch.io/chunky]CHUNKY[/url]
+
+
+"
+text = "Thank you for playing!
+
+A game by: [url=https://waterstop.itch.io/]Water stop[/url]
+
+Programming: Godot 3.3
+
+Music: Bosca Ceoil
+
+SFX: [url=https://chr15m.itch.io/jsfxr]jsfxr[/url]
+
+Art: Aseprite and Playscii: modified textmode, characters from [url=https://batfeula.itch.io/chunky]CHUNKY[/url]
+
+
+"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+show_behind_parent = true
+margin_right = 800.0
+margin_bottom = 600.0
+color = Color( 0.168627, 0.156863, 0.129412, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

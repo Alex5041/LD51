@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://sprites/portal.png" type="Texture" id=1]
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Tree.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/First.gd" type="Script" id=4]
+[ext_resource path="res://sounds/peep.wav" type="AudioStream" id=5]
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 20.0
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 40, 0, 40, 40 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 80, 0, 40, 40 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Intro" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 282, 317 )
+
+[node name="Tree" parent="." instance=ExtResource( 3 )]
+position = Vector2( 475, 250 )
+
+[node name="Tree2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 359, 372 )
+
+[node name="Portal" type="Area2D" parent="."]
+position = Vector2( 400, 300 )
+collision_layer = 16
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal"]
+shape = SubResource( 5 )
+
+[node name="Sprite" type="AnimatedSprite" parent="Portal"]
+frames = SubResource( 6 )
+frame = 1
+playing = true
+
+[node name="Portal" type="Node" parent="Portal"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 400, 300 )
+current = true
+zoom = Vector2( 0.4, 0.4 )
+
+[node name="NoteTimer" type="Timer" parent="."]
+
+[node name="Peep" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -6.0
+
+[connection signal="timeout" from="NoteTimer" to="." method="_on_NoteTimer_timeout"]
